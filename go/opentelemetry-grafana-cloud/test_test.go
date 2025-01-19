@@ -12,10 +12,10 @@ import (
 func TestPopulateMetricHistogram(t *testing.T) {
 	url := "http://localhost:8080/divide?a=%d&b=%d"
 	minNum, maxNum := -5, 5
-	maxRunningTime := time.Duration(10)
+	maxRunningTime := time.Duration(10) * time.Minute
 
 	start := time.Now()
-	for time.Since(start) < maxRunningTime*time.Minute {
+	for time.Since(start) < maxRunningTime {
 		a := rand.Intn(maxNum-minNum+1) + minNum
 		b := rand.Intn(maxNum-minNum+1) + minNum
 		finalURL := fmt.Sprintf(url, a, b)

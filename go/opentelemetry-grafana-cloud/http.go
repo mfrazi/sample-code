@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"net/http"
 	"strconv"
 	"time"
@@ -10,8 +11,12 @@ import (
 func handleDivide(w http.ResponseWriter, r *http.Request) {
 	start := time.Now()
 	tags := map[string]string{}
+
+	// add dummy process to make sure we can get latency more than 1 millisecond
+	time.Sleep(time.Duration(rand.Intn(1000)+10) * time.Millisecond)
+
 	defer func() {
-		pushHistogram(r.Context(), time.Since(start).Nanoseconds(), tags)
+		pushHistogram(r.Context(), time.Since(start).Milliseconds(), tags)
 	}()
 
 	a, b, err := parseQueryParams(r)
